@@ -14,8 +14,8 @@ app.get("/bhfl",(req,res)=>{
 })
 app.post("/bhfl", (req, res) => {
     try {
-        const { inputArray } = req.body;
-        const { numbers, alphabets } = separateNumbersAndAlphabets(inputArray);
+        const { data } = req.body;
+        const { numbers, alphabets } = separateNumbersAndAlphabets(data);
         const highest_alphabet = findMaxAlphabet(alphabets);
         const response = {
             is_success: true,
@@ -38,7 +38,7 @@ function separateNumbersAndAlphabets(inputArray) {
         throw new Error("Input should be an array.");
     }
 
-    const numbers = inputArray.filter(item => typeof item === 'number');
+    const numbers = inputArray.filter(item => !isNaN(parseFloat(item)));
     const alphabets = inputArray.filter(item => typeof item === 'string' && /^[A-Za-z]$/.test(item));
 
     return { numbers, alphabets };
